@@ -1,0 +1,12 @@
+version: '3.8'
+services:  
+  be:    
+    build: .
+    container_name: be   
+    ports:      
+      - '3000:3000'
+  fe:
+    image: a9052681569/ksenig-web
+    container_name: fe   
+    ports:      
+      - '8080:8080'
