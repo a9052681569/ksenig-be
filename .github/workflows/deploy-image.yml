@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  build:
+  build-and-publish-image:
     runs-on: ubuntu-latest
     steps:
       -
@@ -29,8 +29,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ksenig-be:latest
-  deploy:
-    needs: build
+  trigger-deploy:
+    needs: build-and-publish-image
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
