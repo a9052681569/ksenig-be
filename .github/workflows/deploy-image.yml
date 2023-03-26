@@ -33,6 +33,6 @@ jobs:
     needs: build-and-publish-image
     uses: a9052681569/ksenig-conf/.github/workflows/ci.yml@main
     secrets: 
-      SSH_USER: {{ secrets.SSH_USER }}
+      SSH_USER: ${{ secrets.SSH_USER }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       SSH_HOST: ${{ secrets.SSH_HOST }}
