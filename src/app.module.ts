@@ -4,10 +4,15 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './cats/cats.module';
 import { RouterModule } from '@nestjs/core';
+import { env } from 'process';
 
 @Module({
 	imports: [
-		MongooseModule.forRoot('mongodb://127.0.0.1:27017/ksenigdb'),
+		MongooseModule.forRoot(
+			// в проде докер кинет в окружение имся хоста
+			// это нужно для доступа БЕ к БД т.к у докера своя внутренняя сеть
+			`mongodb://${env.DB_HOST ?? '127.0.0.1'}:27017/ksenigdb`,
+		),
 		CatsModule,
 		RouterModule.register([
 			{
