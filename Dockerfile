@@ -17,8 +17,7 @@ RUN npm cache verify && npm install && npm run build
 RUN npm install pm2 -g
 
 
-# command to run,
-# TODO: rewrite in helm chart
+# command to run
 ENTRYPOINT ["npm", "run", "start:onvm"]
 
 

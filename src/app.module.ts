@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './cats/cats.module';
 import { RouterModule } from '@nestjs/core';
 import { env } from 'process';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
 	imports: [
@@ -14,9 +16,12 @@ import { env } from 'process';
 			`mongodb://${env.DB_HOST ?? '127.0.0.1'}:27017/ksenigdb`,
 		),
 		CatsModule,
+		AuthModule,
+		UsersModule,
 		RouterModule.register([
 			{
 				path: 'api',
+				module: AppModule,
 				children: [
 					{
 						path: 'cats',
