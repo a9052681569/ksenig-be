@@ -9,9 +9,10 @@ import {
 	Delete,
 	Put,
 } from '@nestjs/common';
-import { DirectWorkWithUserGuard } from './create-user.guard';
+import { DirectWorkWithUserGuard } from './direck-work-with-user.guard';
 import { UsersService } from './users.service';
 import { User, UserData } from './users.schema';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 
 @Controller()
 export class UsersController {
@@ -19,7 +20,7 @@ export class UsersController {
 
 	constructor(private usersService: UsersService) {}
 
-	@UseGuards(DirectWorkWithUserGuard)
+	@UseGuards(DirectWorkWithUserGuard, JwtAuthGuard)
 	@Post()
 	create(@Request() req: any): Promise<UserData | null | undefined> {
 		return this.usersService
@@ -27,13 +28,13 @@ export class UsersController {
 			.then(({ username, roles }) => ({ username, roles }));
 	}
 
-	@UseGuards(DirectWorkWithUserGuard)
+	@UseGuards(DirectWorkWithUserGuard, JwtAuthGuard)
 	@Get()
 	getAllUsers(): Promise<UserData[] | null | undefined> {
 		return this.usersService.getAll();
 	}
 
-	@UseGuards(DirectWorkWithUserGuard)
+	@UseGuards(DirectWorkWithUserGuard, JwtAuthGuard)
 	@Get(':username')
 	getUser(
 		@Param('username') username: string,
@@ -41,7 +42,7 @@ export class UsersController {
 		return this.usersService.findOne(username);
 	}
 
-	@UseGuards(DirectWorkWithUserGuard)
+	@UseGuards(DirectWorkWithUserGuard, JwtAuthGuard)
 	@Delete(':username')
 	deleteUser(
 		@Param('username') username: string,
@@ -49,7 +50,7 @@ export class UsersController {
 		return this.usersService.delete(username);
 	}
 
-	@UseGuards(DirectWorkWithUserGuard)
+	@UseGuards(DirectWorkWithUserGuard, JwtAuthGuard)
 	@Put(':id')
 	updateUser(
 		@Param('id') id: string,

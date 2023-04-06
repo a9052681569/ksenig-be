@@ -6,6 +6,9 @@ import { RouterModule } from '@nestjs/core';
 import { env } from 'process';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { TempUsersModule } from './temp-users/temp-users.module';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 @Module({
 	imports: [
@@ -16,6 +19,7 @@ import { UsersModule } from './users/users.module';
 		),
 		AuthModule,
 		UsersModule,
+		TempUsersModule,
 		RouterModule.register([
 			{
 				path: 'api',
@@ -28,6 +32,10 @@ import { UsersModule } from './users/users.module';
 					{
 						path: 'users',
 						module: UsersModule,
+					},
+					{
+						path: 'temporary',
+						module: TempUsersModule,
 					},
 				],
 			},
