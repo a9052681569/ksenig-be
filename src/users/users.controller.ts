@@ -20,7 +20,7 @@ export class UsersController {
 
 	constructor(private usersService: UsersService) {}
 
-	@UseGuards(DirectWorkWithUserGuard, JwtAuthGuard)
+	@UseGuards(DirectWorkWithUserGuard)
 	@Post()
 	create(@Request() req: any): Promise<UserData | null | undefined> {
 		return this.usersService
