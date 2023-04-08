@@ -20,6 +20,10 @@ export class TempUsersService {
 		return this.tempUserModel.findOne({ id });
 	}
 
+	findAll(): Promise<TemporaryUserData[] | null | undefined> {
+		return this.tempUserModel.find({});
+	}
+
 	create(): Promise<TemporaryUser> {
 		const data: TemporaryUserData = {
 			id: uuidv4(),

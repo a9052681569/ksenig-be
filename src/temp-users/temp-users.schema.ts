@@ -25,8 +25,3 @@ export interface TemporaryUserData {
 	createdAt: number;
 	expiresAt: number;
 }
-
-export interface TemporaryUserPublicData {
-	id: string;
-	canShow: boolean;
-}

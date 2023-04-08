@@ -9,10 +9,7 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
-import {
-	TemporaryUserData,
-	TemporaryUserPublicData,
-} from './temp-users.schema';
+import { TemporaryUserData } from './temp-users.schema';
 import { TempUsersService } from './temp-users.service';
 
 @Controller()
@@ -27,8 +24,22 @@ export class TempUsersController {
 		return this.tempUserService.create();
 	}
 
+	@UseGuards(JwtAuthGuard)
+	@Get()
+	getAll(): Promise<TemporaryUserData[]> {
+		return this.tempUserService
+			.findAll()
+			.then((tempUsers: TemporaryUserData[]) => {
+				if (!tempUsers.length) {
+					throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+				}
+
+				return tempUsers;
+			});
+	}
+
 	@Get(':id')
-	getUser(@Param('id') id: string): Promise<TemporaryUserPublicData> {
+	getTempUser(@Param('id') id: string): Promise<TemporaryUserData> {
 		return this.tempUserService
 			.findOne(id)
 			.then((tempUser: TemporaryUserData) => {
@@ -36,10 +47,7 @@ export class TempUsersController {
 					throw new HttpException('Not found', HttpStatus.NOT_FOUND);
 				}
 
-				return {
-					id: tempUser.id,
-					canShow: tempUser.expiresAt - Date.now() > 0,
-				};
+				return tempUser;
 			});
 	}
 }
