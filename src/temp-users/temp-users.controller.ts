@@ -3,13 +3,16 @@ import {
 	Get,
 	HttpException,
 	HttpStatus,
+	Request,
+	Delete,
+	Put,
 	Logger,
 	Param,
 	Post,
 	UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
-import { TemporaryUserData } from './temp-users.schema';
+import { TemporaryUser, TemporaryUserData } from './temp-users.schema';
 import { TempUsersService } from './temp-users.service';
 
 @Controller()
@@ -20,8 +23,8 @@ export class TempUsersController {
 
 	@UseGuards(JwtAuthGuard)
 	@Post()
-	create() {
-		return this.tempUserService.create();
+	create(@Request() req: any): Promise<TemporaryUser> {
+		return this.tempUserService.create(req.body.comment);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -36,6 +39,18 @@ export class TempUsersController {
 
 				return tempUsers;
 			});
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Delete(':id')
+	deleteTempUser(@Param('id') id: string): Promise<any> {
+		return this.tempUserService.delete(id);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Put(':id')
+	refreshTempUser(@Param('id') id: string): Promise<TemporaryUser | null> {
+		return this.tempUserService.refresh(id);
 	}
 
 	@Get(':id')

@@ -16,6 +16,9 @@ export class TemporaryUser {
 
 	@Prop({ required: true })
 	expiresAt: number;
+
+	@Prop({ required: false })
+	comment: string;
 }
 
 export const TemporaryUserSchema = SchemaFactory.createForClass(TemporaryUser);
@@ -24,4 +27,5 @@ export interface TemporaryUserData {
 	id: string;
 	createdAt: number;
 	expiresAt: number;
+	comment: string;
 }
